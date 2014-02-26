@@ -17,26 +17,15 @@
 package org.apache.catalina.core;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.regex.Pattern;
-
-import org.apache.catalina.Container;
-import org.apache.catalina.Context;
-import org.apache.catalina.Host;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleEvent;
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Valve;
+import org.apache.catalina.*;
 import org.apache.catalina.loader.WebappClassLoader;
 import org.apache.catalina.mbeans.MBeanUtils;
 import org.apache.catalina.valves.ValveBase;
 import org.apache.tomcat.util.ExceptionUtils;
+
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.regex.Pattern;
 
 
 /**
@@ -762,6 +751,21 @@ public class StandardHost extends ContainerBase implements Host {
         return (sb.toString());
 
     }
+
+	@Override
+	protected synchronized void initInternal() throws LifecycleException{
+		Throwable ex = new Throwable();
+		StackTraceElement[] stackTraceElements = ex.getStackTrace();
+		if (stackTraceElements != null){
+			for (int i = stackTraceElements.length - 1; i >= 0; i--) {
+				System.out.print(stackTraceElements[i].getClassName() + "\t");
+				System.out.print(stackTraceElements[i].getMethodName() + "\t");
+				System.out.print(stackTraceElements[i].getFileName() + "\t");
+				System.out.println(stackTraceElements[i].getLineNumber());
+			}
+		}
+		super.initInternal();
+	}
 
     /**
      * Start this component and implement the requirements
