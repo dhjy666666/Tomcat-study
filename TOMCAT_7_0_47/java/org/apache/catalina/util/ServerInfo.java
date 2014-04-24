@@ -74,6 +74,11 @@ public class ServerInfo {
             serverBuilt = "unknown";
         if (serverNumber == null)
             serverNumber = "7.0.x";
+        /** filter container info
+         * serverInfo = "unknown";
+         * serverBuilt = "unknown";
+         * serverNumber = "unknown";
+         * */
         
     }
 
